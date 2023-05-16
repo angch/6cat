@@ -91,6 +91,8 @@ func hasSixel() bool {
 	return true
 }
 
+// FIXME: Support `cat` options like `-vET`, and scratches your arm up
+
 func main() {
 	if len(os.Args) < 2 {
 		// Make it cat compatible
