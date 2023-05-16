@@ -10,9 +10,9 @@ Majority of code is based off [github.com/mattn/go-sixel](github.com/mattn/go-si
 
 ## Compile a statically linked binary
 
-   CGO_ENABLED=0 go build -ldflags "-extldflags '-static' -s -w" -o 6cat
+```CGO_ENABLED=0 go build -ldflags "-extldflags '-static' -s -w" -o 6cat```
 
-Then copy or somehow distribute that one file to your server.
+Prefix `GOOS=linux GOARCH=amd64` if required. Then copy or somehow distribute that one file to your server.
 
 ## Notes
 
