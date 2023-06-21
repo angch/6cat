@@ -8,6 +8,9 @@ on images fast, e.g. image files stored on server.
 
 Majority of code is based off [github.com/mattn/go-sixel](github.com/mattn/go-sixel)
 
+Note: vscode's terminal has experimental sixel support:
+[https://code.visualstudio.com/updates/v1_79#_images-in-the-terminal](https://code.visualstudio.com/updates/v1_79#_images-in-the-terminal)
+
 ## Compile a statically linked binary
 
 ```CGO_ENABLED=0 go build -ldflags "-extldflags '-static' -s -w" -o 6cat```
