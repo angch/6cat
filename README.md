@@ -1,12 +1,14 @@
 # 6cat
 
-cat replacement that converts images into sixel images on supported terminals. If it's not an
-image, the contents will be dumped as-is.
+cat replacement that converts images into sixel, or kitty images on supported terminals.
+If it's not an image, the contents will be dumped as-is.
 
 For fast installation on random remote comptuers with 0 dependencies, so you can check
 on images fast, e.g. image files stored on server.
 
-Majority of code is based off [github.com/mattn/go-sixel](github.com/mattn/go-sixel)
+Majority of code is based off
+[github.com/mattn/go-sixel](github.com/mattn/go-sixel) and
+[github.com/dolmen-go/kittyimg](github.com/dolmen-go/kittyimg)
 
 Note: vscode's terminal has experimental sixel support:
 [https://code.visualstudio.com/updates/v1_79#_images-in-the-terminal](https://code.visualstudio.com/updates/v1_79#_images-in-the-terminal)

@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"github.com/BurntSushi/graphics-go/graphics"
+	"github.com/dolmen-go/kittyimg"
 	"github.com/mattn/go-sixel"
 )
 
@@ -37,7 +38,9 @@ func render(filename string) error {
 		f = os.Stdin
 	}
 
-	if !hasSixel() {
+	hSixel, hKitty := hasSixel(), hasKitty()
+
+	if !hSixel && !hKitty {
 		return dump(f)
 	}
 
@@ -77,18 +80,45 @@ func render(filename string) error {
 	buf := bufio.NewWriter(os.Stdout)
 	defer buf.Flush()
 
-	enc := sixel.NewEncoder(buf)
-	enc.Dither = true
-	err = enc.Encode(img)
+	if hasSixel() {
+		enc := sixel.NewEncoder(buf)
+		enc.Dither = true
+		err = enc.Encode(img)
+	} else if hasKitty() {
+		kittyimg.Fprint(buf, img)
+	}
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 	return err
 }
 
-// FIXME: Detect sixel support
+// FIXME better detection
+
 func hasSixel() bool {
+	termenv := os.Getenv("TERM")
+	switch termenv {
+	case "xterm-kitty":
+		return false
+	case "xterm-ghostty":
+		return false
+	}
 	return true
+}
+
+func hasKitty() bool {
+	termenv := os.Getenv("TERM")
+	switch termenv {
+	case "xterm-kitty":
+		return true
+	case "xterm-ghostty":
+		return true
+	}
+	// if term.IsTerminal(int(os.Stdin.Fd())) {
+	// 	return false
+	// }
+
+	return false
 }
 
 // FIXME: Support `cat` options like `-vET`, and scratches your arm up
