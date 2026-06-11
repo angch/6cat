@@ -38,9 +38,9 @@ func render(filename string) error {
 		f = os.Stdin
 	}
 
-	hSixel, hKitty := hasSixel(), hasKitty()
+	gfx := detectGraphics()
 
-	if !hSixel && !hKitty {
+	if !gfx.sixel && !gfx.kitty {
 		return dump(f)
 	}
 
@@ -80,45 +80,17 @@ func render(filename string) error {
 	buf := bufio.NewWriter(os.Stdout)
 	defer buf.Flush()
 
-	if hasSixel() {
+	if gfx.kitty {
+		err = kittyimg.Fprint(buf, img)
+	} else if gfx.sixel {
 		enc := sixel.NewEncoder(buf)
 		enc.Dither = true
 		err = enc.Encode(img)
-	} else if hasKitty() {
-		kittyimg.Fprint(buf, img)
 	}
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 	return err
-}
-
-// FIXME better detection
-
-func hasSixel() bool {
-	termenv := os.Getenv("TERM")
-	switch termenv {
-	case "xterm-kitty":
-		return false
-	case "xterm-ghostty":
-		return false
-	}
-	return true
-}
-
-func hasKitty() bool {
-	termenv := os.Getenv("TERM")
-	switch termenv {
-	case "xterm-kitty":
-		return true
-	case "xterm-ghostty":
-		return true
-	}
-	// if term.IsTerminal(int(os.Stdin.Fd())) {
-	// 	return false
-	// }
-
-	return false
 }
 
 // FIXME: Support `cat` options like `-vET`, and scratches your arm up
