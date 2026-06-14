@@ -10,6 +10,9 @@ import (
 	"io"
 	"os"
 
+	_ "github.com/gen2brain/avif"
+	_ "github.com/gen2brain/jpegxl"
+
 	"github.com/BurntSushi/graphics-go/graphics"
 	"github.com/dolmen-go/kittyimg"
 	"github.com/mattn/go-sixel"
@@ -44,6 +47,7 @@ func render(filename string) error {
 		return dump(f)
 	}
 
+	// Debug print removed
 	img, _, err := image.Decode(f)
 	if err != nil {
 		if err == image.ErrFormat {
